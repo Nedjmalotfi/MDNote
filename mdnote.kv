@@ -1,0 +1,65 @@
+#:import MDToolbar kivymd.toolbar.MDToolbar
+#:import MDList kivymd.list.MDList
+#:import TwoLineListItem kivymd.list.TwoLineListItem
+#:import MDTextFieldRound kivymd.textfields.MDTextFieldRound
+#:import MDTextField kivymd.textfields.MDTextField
+#:import ctime time.ctime
+
+#:set color_shadow [0, 0, 0, .2980392156862745]
+
+<MyMDTextFieldRound@MDTextFieldRound>
+    size_hint_x: None
+    normal_color: color_shadow
+    active_color: color_shadow
+<tlli@TwoLineListItem>:
+    on_press: app.edit(self.text,self.dtext,self)
+<MainScreen>
+    BoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "MDNote App"
+            pos_hint: {'center_x': .5, 'center_y': .95}
+            md_bg_color: app.theme_cls.primary_color
+            background_palette: 'Amber'
+            background_hue: '700'
+            right_action_items: [['plus-box', lambda x: app.gotoedit()]]
+            left_action_items: [['note', lambda x: None]]
+        ScrollView:
+            do_scroll_x: False
+
+            MDList:
+                id: ml
+                
+<EditScreen@BoxLayout>:
+    MyMDTextFieldRound:
+        id: title
+        pos_hint: {'center_x': .5, 'center_y': .80}
+        icon_type: 'without'
+        hint_text: 'Title'
+        normal_color: [.432, .124, .8654, .1] 
+    BoxLayout:
+        pos_hint: {'center_x': .5, 'center_y': .25}
+		ScrollView:
+		    do_scroll_x: False
+		    BoxLayout:
+		        orientation: 'vertical'
+		        size_hint_y: None
+		        height: self.minimum_height 
+		        padding: dp(48)
+		        spacing: dp(15)
+				MDTextField:
+				    id: text
+					multiline: True
+					hint_text: "Write Here"
+					helper_text: "too see all text scroll up"
+					helper_text_mode: "persistent"    
+        
+	MDToolbar:
+	    pos_hint: {'center_x': .5, 'center_y': .95}
+	    md_bg_color: app.theme_cls.primary_color
+		background_palette: 'Amber'
+		background_hue: '700'
+		right_action_items: [['content-save',lambda x: app.add()],['close-box',lambda x: app.can()]]
+		left_action_items: [['arrow-left', lambda x: app.gotomain()]]  
+    
+    
